@@ -97,3 +97,9 @@
   cursor: pointer;
   font: inherit;
 }
+
+.filter-row button.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}

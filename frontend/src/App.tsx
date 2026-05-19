@@ -77,10 +77,10 @@ function App() {
     <main className='app'>
       <h1>Task Manager</h1>
       <div className='filter-row'>
-        <button type='button' onClick={() => setStatusFilter("ALL")}>All</button>
-        <button type='button' onClick={() => setStatusFilter("TODO")}>TODO</button>
-        <button type='button' onClick={() => setStatusFilter("IN_PROGRESS")}>IN_PROGRESS</button>
-        <button type='button' onClick={() => setStatusFilter("DONE")}>DONE</button>
+        <button type='button' className={statusFilter === "ALL" ? "active" : ""} onClick={() => setStatusFilter("ALL")}>All</button>
+        <button type='button' className={statusFilter === "TODO" ? "active" : ""} onClick={() => setStatusFilter("TODO")}>TODO</button>
+        <button type='button' className={statusFilter === "IN_PROGRESS" ? "active" : ""} onClick={() => setStatusFilter("IN_PROGRESS")}>IN_PROGRESS</button>
+        <button type='button' className={statusFilter === "DONE" ? "active" : ""}onClick={() => setStatusFilter("DONE")}>DONE</button>
       </div>
       <form onSubmit={handleSubmit} className='task-form'>
         <input 
