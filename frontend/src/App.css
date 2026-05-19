@@ -32,3 +32,26 @@
   display: block;
   margin-top: 8px;
 }
+
+.task-form {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.task-form input,
+.task-form textarea,
+.task-form select,
+.task-form button {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.task-form button {
+  cursor: pointer;
+  background: var(--accent);
+  color: white;
+}
+
