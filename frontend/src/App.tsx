@@ -19,6 +19,8 @@ function App() {
   const [status, setStatus] = useState<TaskStatus>("TODO");
   const [dueDate, setDueDate] = useState("");
 
+  const [statusFilter, setStatusFilter] = useState<TaskStatus | "ALL">("ALL");
+
   useEffect(() => {
     getTasks()
       .then(setTasks)
@@ -66,9 +68,20 @@ function App() {
   if (loading) return <main className='app'>Loading tasks...</main>
   if (error) return <main className='app'>{error}</main>
 
+  const filteredTasks = 
+    statusFilter === "ALL"
+      ? tasks
+      : tasks.filter((task) => task.status === statusFilter);
+  
   return (
     <main className='app'>
       <h1>Task Manager</h1>
+      <div className='filter-row'>
+        <button type='button' onClick={() => setStatusFilter("ALL")}>All</button>
+        <button type='button' onClick={() => setStatusFilter("TODO")}>TODO</button>
+        <button type='button' onClick={() => setStatusFilter("IN_PROGRESS")}>IN_PROGRESS</button>
+        <button type='button' onClick={() => setStatusFilter("DONE")}>DONE</button>
+      </div>
       <form onSubmit={handleSubmit} className='task-form'>
         <input 
           value={title}
@@ -103,11 +116,11 @@ function App() {
         <button type='submit'>Add Task</button>
       </form>
 
-      {tasks.length === 0 ? (
+      {filteredTasks.length === 0 ? (
         <p>No tasks yet.</p>
       ) : (
         <section className='task-list'>
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <article className='task-card' key={task.id}>
               <h2>{task.title}</h2>
               <p>{task.description}</p>
