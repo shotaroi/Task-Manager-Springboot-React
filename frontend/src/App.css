@@ -103,3 +103,16 @@
   color: white;
   border-color: var(--accent);
 }
+
+.edit-button {
+  display: inline-block;
+  margin-top: 12px;
+  margin-right: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+}

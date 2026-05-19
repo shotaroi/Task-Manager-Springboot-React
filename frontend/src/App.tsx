@@ -21,6 +21,8 @@ function App() {
 
   const [statusFilter, setStatusFilter] = useState<TaskStatus | "ALL">("ALL");
 
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+
   useEffect(() => {
     getTasks()
       .then(setTasks)
@@ -31,14 +33,32 @@ function App() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const newTask = await createTask({
-      title,
-      description,
-      status,
-      dueDate,
-    });
+    if (editingTaskId !== null) {
+      const updatedTask = await updateTask(editingTaskId, {
+        title,
+        description,
+        status,
+        dueDate,
+      });
+      
+      setTasks((currentTasks) => 
+        currentTasks.map((task) => 
+          task.id === updatedTask.id ? updatedTask : task
+         )
+      );
 
-    setTasks((currentTasks) => [...currentTasks, newTask]);
+      setEditingTaskId(null);
+    } else {
+      const newTask = await createTask({
+        title,
+        description,
+        status,
+        dueDate,
+      });
+  
+      setTasks((currentTasks) => [...currentTasks, newTask]);
+    }
+   
     setTitle("");
     setDescription("");
     setStatus("TODO");
@@ -63,6 +83,14 @@ function App() {
         currentTask.id === updatedTask.id ? updatedTask : currentTask
       )
     );
+  }
+
+  function startEditing(task: Task) {
+    setEditingTaskId(task.id);
+    setTitle(task.title);
+    setDescription(task.description);
+    setStatus(task.status);
+    setDueDate(task.dueDate);
   }
 
   if (loading) return <main className='app'>Loading tasks...</main>
@@ -113,7 +141,9 @@ function App() {
           required
         />
 
-        <button type='submit'>Add Task</button>
+        <button type='submit'>
+          {editingTaskId === null ? "Add Task" : "Save Task"}
+        </button>
       </form>
 
       {filteredTasks.length === 0 ? (
@@ -136,6 +166,13 @@ function App() {
               </select>
              
               <small>Due: {task.dueDate}</small>
+              <button 
+                type='button'
+                className='edit-button'
+                onClick={() => startEditing(task)}
+              >
+                Edit
+              </button>
               <button
                 type='button'
                 className='delete-button'
