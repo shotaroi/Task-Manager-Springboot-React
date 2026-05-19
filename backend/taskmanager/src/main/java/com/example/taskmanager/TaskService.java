@@ -36,4 +36,9 @@ public class TaskService {
 
         return taskRepository.save(existingTask);
     }
+
+    public void delete(Long id) {
+        Task existingTask = findById(id);
+        taskRepository.delete(existingTask);
+    }
 }
