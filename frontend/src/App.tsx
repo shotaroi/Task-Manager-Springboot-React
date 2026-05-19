@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { createTask, getTasks, type Task, type TaskStatus } from "./api/tasks";
+import { 
+  createTask,
+  getTasks,
+  deleteTask,
+  type Task, 
+  type TaskStatus,
+} from "./api/tasks";
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -34,6 +40,11 @@ function App() {
     setDescription("");
     setStatus("TODO");
     setDueDate("");
+  }
+
+  async function handleDelete(id: number) {
+    await deleteTask(id);
+    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
   }
 
   if (loading) return <main className='app'>Loading tasks...</main>
@@ -86,6 +97,13 @@ function App() {
               <p>{task.description}</p>
               <span>{task.status}</span>
               <small>Due: {task.dueDate}</small>
+              <button
+                type='button'
+                className='delete-button'
+                onClick={() => handleDelete(task.id)}
+              >
+                Delete
+              </button>
             </article>
           ))}
         </section>
