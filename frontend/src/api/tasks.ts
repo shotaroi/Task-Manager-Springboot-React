@@ -34,3 +34,15 @@ export async function createTask(task: CreateTaskRequest) {
 export async function deleteTask(id: number) {
     await axios.delete(`${API_URL}/${id}`);
 }
+
+export interface UpdateTaskRequest {
+    title: string;
+    description: string;
+    status: TaskStatus;
+    dueDate: string;
+}
+
+export async function updateTask(id: number, task: UpdateTaskRequest) {
+    const response = await axios.put<Task>(`${API_URL}/${id}`, task);
+    return response.data;
+}

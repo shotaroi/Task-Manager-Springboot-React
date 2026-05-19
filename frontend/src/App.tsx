@@ -4,6 +4,7 @@ import {
   createTask,
   getTasks,
   deleteTask,
+  updateTask,
   type Task, 
   type TaskStatus,
 } from "./api/tasks";
@@ -45,6 +46,21 @@ function App() {
   async function handleDelete(id: number) {
     await deleteTask(id);
     setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
+  }
+
+  async function handleStatusChange(task: Task, newStatus: TaskStatus) {
+    const updatedTask = await updateTask(task.id, {
+      title: task.title,
+      description: task.description,
+      status: newStatus,
+      dueDate: task.dueDate,
+    });
+
+    setTasks((currentTasks) => 
+      currentTasks.map((currentTask) => 
+        currentTask.id === updatedTask.id ? updatedTask : currentTask
+      )
+    );
   }
 
   if (loading) return <main className='app'>Loading tasks...</main>
@@ -95,7 +111,17 @@ function App() {
             <article className='task-card' key={task.id}>
               <h2>{task.title}</h2>
               <p>{task.description}</p>
-              <span>{task.status}</span>
+             
+              <select 
+                className='status-select'
+                value={task.status}
+                onChange={(event) => handleStatusChange(task, event.target.value as TaskStatus)}
+              >
+                <option value='TODO'>TODO</option>
+                <option value='IN_PROGRESS'>IN_PROGRESS</option>
+                <option value='DONE'>DONE</option>
+              </select>
+             
               <small>Due: {task.dueDate}</small>
               <button
                 type='button'

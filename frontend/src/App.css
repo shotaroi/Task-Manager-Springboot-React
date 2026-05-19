@@ -71,3 +71,12 @@
   background: #dc2626;
   color: white;
 }
+
+.status-select {
+  display: block;
+  margin-top: 12px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
