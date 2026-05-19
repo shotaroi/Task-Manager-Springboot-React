@@ -17,7 +17,14 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public Task findById(Long id) {
+        return taskRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Task not found"));
+    }
+
     public Task create(Task task) {
         return taskRepository.save(task);
     }
+
+
 }
