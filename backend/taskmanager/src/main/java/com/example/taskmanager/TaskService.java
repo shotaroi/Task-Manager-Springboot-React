@@ -26,5 +26,14 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    public Task update(Long id, Task updatedTask) {
+        Task existingTask = findById(id);
 
+        existingTask.setTitle(updatedTask.getTitle());
+        existingTask.setDescription(updatedTask.getDescription());
+        existingTask.setStatus(updatedTask.getStatus());
+        existingTask.setDueDate(updatedTask.getDueDate());
+
+        return taskRepository.save(existingTask);
+    }
 }
