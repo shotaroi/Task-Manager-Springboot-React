@@ -122,3 +122,8 @@
   background: transparent;
   color: inherit;
 }
+
+.action-error {
+  color: #dc2626;
+  margin-bottom: 24px;
+}

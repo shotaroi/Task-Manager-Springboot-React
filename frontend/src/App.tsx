@@ -23,6 +23,8 @@ function App() {
 
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
 
+  const [actionError, setActionError] = useState("");
+
   useEffect(() => {
     getTasks()
       .then(setTasks)
@@ -32,57 +34,74 @@ function App() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setActionError("");
 
-    if (editingTaskId !== null) {
-      const updatedTask = await updateTask(editingTaskId, {
-        title,
-        description,
-        status,
-        dueDate,
-      });
-      
-      setTasks((currentTasks) => 
-        currentTasks.map((task) => 
-          task.id === updatedTask.id ? updatedTask : task
-         )
-      );
-
-      setEditingTaskId(null);
-    } else {
-      const newTask = await createTask({
-        title,
-        description,
-        status,
-        dueDate,
-      });
+    try {
+      if (editingTaskId !== null) {
+        const updatedTask = await updateTask(editingTaskId, {
+          title,
+          description,
+          status,
+          dueDate,
+        });
+        
+        setTasks((currentTasks) => 
+          currentTasks.map((task) => 
+            task.id === updatedTask.id ? updatedTask : task
+           )
+        );
   
-      setTasks((currentTasks) => [...currentTasks, newTask]);
+        setEditingTaskId(null);
+      } else {
+        const newTask = await createTask({
+          title,
+          description,
+          status,
+          dueDate,
+        });
+    
+        setTasks((currentTasks) => [...currentTasks, newTask]);
+      }
+     
+      setTitle("");
+      setDescription("");
+      setStatus("TODO");
+      setDueDate("");
+    } catch {
+      setActionError("Failed to save task. Please try again.");
     }
-   
-    setTitle("");
-    setDescription("");
-    setStatus("TODO");
-    setDueDate("");
   }
 
   async function handleDelete(id: number) {
-    await deleteTask(id);
-    setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
+    setActionError("");
+
+    try {
+      await deleteTask(id);
+      setTasks((currentTasks) => currentTasks.filter((task) => task.id !== id));
+    } catch {
+      setActionError("Failed to delete task. Please try again.");
+    }
   }
 
   async function handleStatusChange(task: Task, newStatus: TaskStatus) {
-    const updatedTask = await updateTask(task.id, {
-      title: task.title,
-      description: task.description,
-      status: newStatus,
-      dueDate: task.dueDate,
-    });
+    setActionError("");
 
-    setTasks((currentTasks) => 
-      currentTasks.map((currentTask) => 
-        currentTask.id === updatedTask.id ? updatedTask : currentTask
-      )
-    );
+    try {
+      const updatedTask = await updateTask(task.id, {
+        title: task.title,
+        description: task.description,
+        status: newStatus,
+        dueDate: task.dueDate,
+      });
+  
+      setTasks((currentTasks) => 
+        currentTasks.map((currentTask) => 
+          currentTask.id === updatedTask.id ? updatedTask : currentTask
+        )
+      );
+    } catch {
+      setActionError("Failed to update task status. Please try again.");
+    }
   }
 
   function startEditing(task: Task) {
@@ -159,6 +178,8 @@ function App() {
           </button>
         )}
       </form>
+
+      {actionError && <p className='action-error'>{actionError}</p>}
 
       {filteredTasks.length === 0 ? (
         <p>No tasks yet.</p>
