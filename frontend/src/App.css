@@ -116,3 +116,9 @@
   cursor: pointer;
   font: inherit;
 }
+
+.cancel-button {
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+}

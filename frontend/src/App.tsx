@@ -93,6 +93,14 @@ function App() {
     setDueDate(task.dueDate);
   }
 
+  function cancelEditing() {
+    setEditingTaskId(null);
+    setTitle("");
+    setDescription("");
+    setStatus("TODO");
+    setDueDate("");
+  }
+
   if (loading) return <main className='app'>Loading tasks...</main>
   if (error) return <main className='app'>{error}</main>
 
@@ -108,7 +116,7 @@ function App() {
         <button type='button' className={statusFilter === "ALL" ? "active" : ""} onClick={() => setStatusFilter("ALL")}>All</button>
         <button type='button' className={statusFilter === "TODO" ? "active" : ""} onClick={() => setStatusFilter("TODO")}>TODO</button>
         <button type='button' className={statusFilter === "IN_PROGRESS" ? "active" : ""} onClick={() => setStatusFilter("IN_PROGRESS")}>IN_PROGRESS</button>
-        <button type='button' className={statusFilter === "DONE" ? "active" : ""}onClick={() => setStatusFilter("DONE")}>DONE</button>
+        <button type='button' className={statusFilter === "DONE" ? "active" : ""} onClick={() => setStatusFilter("DONE")}>DONE</button>
       </div>
       <form onSubmit={handleSubmit} className='task-form'>
         <input 
@@ -144,6 +152,12 @@ function App() {
         <button type='submit'>
           {editingTaskId === null ? "Add Task" : "Save Task"}
         </button>
+
+        {editingTaskId != null && (
+          <button className='cancel-button' type='button' onClick={cancelEditing}>
+            Cancel
+          </button>
+        )}
       </form>
 
       {filteredTasks.length === 0 ? (
