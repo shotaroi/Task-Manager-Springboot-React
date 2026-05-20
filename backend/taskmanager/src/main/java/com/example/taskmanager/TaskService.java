@@ -3,6 +3,8 @@ package com.example.taskmanager;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class TaskService {
@@ -19,7 +21,10 @@ public class TaskService {
 
     public Task findById(Long id) {
         return taskRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Task not found"));
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Task not found"
+        ));
     }
 
     public Task create(Task task) {
