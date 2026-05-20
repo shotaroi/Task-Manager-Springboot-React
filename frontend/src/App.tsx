@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { TaskCard } from "./components/TaskCard";
 import { 
   createTask,
   getTasks,
@@ -206,35 +207,13 @@ function App() {
       ) : (
         <section className='task-list'>
           {visibleTasks.map((task) => (
-            <article className='task-card' key={task.id}>
-              <h2>{task.title}</h2>
-              <p>{task.description}</p>
-             
-              <select 
-                className='status-select'
-                value={task.status}
-                onChange={(event) => handleStatusChange(task, event.target.value as TaskStatus)}
-              >
-                <option value='TODO'>TODO</option>
-                <option value='IN_PROGRESS'>IN_PROGRESS</option>
-                <option value='DONE'>DONE</option>
-              </select>
-              <small>Due: {task.dueDate}</small>
-              <button 
-                type='button'
-                className='edit-button'
-                onClick={() => startEditing(task)}
-              >
-                Edit
-              </button>
-              <button
-                type='button'
-                className='delete-button'
-                onClick={() => handleDelete(task.id)}
-              >
-                Delete
-              </button>
-            </article>
+            <TaskCard
+              key={task.id}
+              task={task}
+              onEdit={startEditing}
+              onDelete={handleDelete}
+              onStatusChange={handleStatusChange}
+            />
           ))}
         </section>
       )
