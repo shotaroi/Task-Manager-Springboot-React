@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { TaskCard } from "./components/TaskCard";
 import { 
   createTask,
   getTasks,
@@ -9,6 +8,8 @@ import {
   type Task, 
   type TaskStatus,
 } from "./api/tasks";
+import { TaskCard } from "./components/TaskCard";
+import { TaskForm } from './components/TaskForm';
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -158,47 +159,19 @@ function App() {
         <option value='DUE_DESC'>Due Date: latest first</option>
       </select>
 
-      <form onSubmit={handleSubmit} className='task-form'>
-        <input 
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          placeholder='Task title'
-          required
-        />
-
-        <textarea 
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-          placeholder='Task description'
-          required
-        />
-
-        <select 
-          value={status}
-          onChange={(event) => setStatus(event.target.value as TaskStatus)}
-        >
-          <option value='TODO'>TODO</option>
-          <option value='IN_PROGRESS'>IN_PROGRESS</option>
-          <option value='DONE'>DONE</option>
-        </select>
-
-        <input 
-          type='date'
-          value={dueDate}
-          onChange={(event) => setDueDate(event.target.value)}
-          required
-        />
-
-        <button type='submit'>
-          {editingTaskId === null ? "Add Task" : "Save Task"}
-        </button>
-
-        {editingTaskId != null && (
-          <button className='cancel-button' type='button' onClick={cancelEditing}>
-            Cancel
-          </button>
-        )}
-      </form>
+      <TaskForm
+        title={title}
+        description={description}
+        status={status}
+        dueDate={dueDate}
+        isEditing={editingTaskId !== null}
+        onTitleChange={setTitle}
+        onDescriptionChange={setDescription}
+        onStatusChange={setStatus}
+        onDueDateChange={setDueDate}
+        onSubmit={handleSubmit}
+        onCancel={cancelEditing}
+      />
 
       {actionError && <p className='action-error'>{actionError}</p>}
 
