@@ -127,3 +127,11 @@
   color: #dc2626;
   margin-bottom: 24px;
 }
+
+.sort-select {
+  margin-bottom: 24px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}

@@ -20,8 +20,8 @@ function App() {
   const [dueDate, setDueDate] = useState("");
 
   const [statusFilter, setStatusFilter] = useState<TaskStatus | "ALL">("ALL");
-
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+  const [sortOrder, setSortOrder] = useState<"NONE" | "DUE_ASC" | "DUE_DESC">("NONE");
 
   const [actionError, setActionError] = useState("");
 
@@ -127,6 +127,15 @@ function App() {
     statusFilter === "ALL"
       ? tasks
       : tasks.filter((task) => task.status === statusFilter);
+
+  const visibleTasks = [...filteredTasks].sort((a, b) => {
+    if (sortOrder === "NONE") return 0;
+
+    const aTime = new Date(a.dueDate).getTime();
+    const bTime = new Date(b.dueDate).getTime();
+
+    return sortOrder === "DUE_ASC" ? aTime - bTime : bTime - aTime;
+  });
   
   return (
     <main className='app'>
@@ -137,6 +146,17 @@ function App() {
         <button type='button' className={statusFilter === "IN_PROGRESS" ? "active" : ""} onClick={() => setStatusFilter("IN_PROGRESS")}>IN_PROGRESS</button>
         <button type='button' className={statusFilter === "DONE" ? "active" : ""} onClick={() => setStatusFilter("DONE")}>DONE</button>
       </div>
+
+      <select 
+        className='sort-select'
+        value={sortOrder}  
+        onChange={(event) => setSortOrder(event.target.value as "NONE" | "DUE_ASC" | "DUE_DESC")}
+      >
+        <option value='NONE'>No Sorting</option>
+        <option value='DUE_ASC'>Due Date: earliest first</option>
+        <option value='DUE_DESC'>Due Date: latest first</option>
+      </select>
+
       <form onSubmit={handleSubmit} className='task-form'>
         <input 
           value={title}
@@ -181,11 +201,11 @@ function App() {
 
       {actionError && <p className='action-error'>{actionError}</p>}
 
-      {filteredTasks.length === 0 ? (
+      {visibleTasks.length === 0 ? (
         <p>No tasks yet.</p>
       ) : (
         <section className='task-list'>
-          {filteredTasks.map((task) => (
+          {visibleTasks.map((task) => (
             <article className='task-card' key={task.id}>
               <h2>{task.title}</h2>
               <p>{task.description}</p>
@@ -199,7 +219,6 @@ function App() {
                 <option value='IN_PROGRESS'>IN_PROGRESS</option>
                 <option value='DONE'>DONE</option>
               </select>
-             
               <small>Due: {task.dueDate}</small>
               <button 
                 type='button'
