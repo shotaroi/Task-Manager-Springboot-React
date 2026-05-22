@@ -11,6 +11,7 @@ import {
 import { TaskCard } from "./components/TaskCard";
 import { TaskForm } from './components/TaskForm';
 import { TaskToolbar } from './components/TaskToolbar';
+import type { StatusFilter, SortOrder } from './types';
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);

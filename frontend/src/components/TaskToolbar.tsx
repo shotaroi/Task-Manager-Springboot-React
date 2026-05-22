@@ -1,7 +1,5 @@
 import type { TaskStatus } from "../api/tasks";
-
-type StatusFilter = TaskStatus | "ALL";
-type SortOrder = "NONE" | "DUE_ASC" | "DUE_DESC";
+import type { StatusFilter, SortOrder } from '../types';
 
 interface TaskToolbarProps {
     statusFilter: StatusFilter;
@@ -26,7 +24,7 @@ export function TaskToolbar({
                 className={statusFilter === value ? "active" : ""}
                 onClick={() => onStatusFilterChange(value as StatusFilter)}
               >
-                {value === "ALL" ? "ALL" : value}
+                {value === "ALL" ? "All" : value}
               </button>
             ))}
           </div>
@@ -38,7 +36,7 @@ export function TaskToolbar({
           >
             <option value='NONE'>No Sorting</option>
             <option value='DUE_ASC'>Due Date: earliest first</option>
-            <option value='DUE_DESC'>Due Date: altest first</option>
+            <option value='DUE_DESC'>Due Date: latest first</option>
           </select>
         </>
     );
