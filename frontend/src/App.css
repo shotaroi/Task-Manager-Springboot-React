@@ -140,3 +140,13 @@
   margin-bottom: 24px;
   color: var(--text);
 }
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}

@@ -3,18 +3,28 @@ import type { StatusFilter, SortOrder } from '../types';
 interface TaskToolbarProps {
     statusFilter: StatusFilter;
     sortOrder: SortOrder;
+    searchTerm: string;
     onStatusFilterChange: (value: StatusFilter) => void;
     onSortOrderChange: (value: SortOrder) => void;
+    onSearchTermChange: (value: string) => void;
 }
 
 export function TaskToolbar({
     statusFilter,
     sortOrder,
+    searchTerm,
     onStatusFilterChange,
     onSortOrderChange,
+    onSearchTermChange,
 }: TaskToolbarProps) {
     return (
         <>
+          <input 
+            className='search-input'
+            value={searchTerm}
+            onChange={(event) => onSearchTermChange(event.target.value)}
+            placeholder='Search tasks...'
+          />
           <div className='filter-row'>
             {["ALL", "TODO", "IN_PROGRESS", "DONE"].map((value) => (
               <button

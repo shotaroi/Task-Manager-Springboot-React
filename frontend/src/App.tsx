@@ -26,6 +26,7 @@ function App() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("NONE");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [actionError, setActionError] = useState("");
 
@@ -127,10 +128,17 @@ function App() {
   if (loading) return <main className='app'>Loading tasks...</main>
   if (error) return <main className='app'>{error}</main>
 
-  const filteredTasks = 
-    statusFilter === "ALL"
-      ? tasks
-      : tasks.filter((task) => task.status === statusFilter);
+  const filteredTasks = tasks.filter((task) => {
+    const matchesStatus = 
+      statusFilter === "ALL" || task.status === statusFilter;
+
+    const normalizedSearch = searchTerm.toLowerCase();
+    const matchesSearch = 
+      task.title.toLowerCase().includes(normalizedSearch) ||
+      task.description.toLowerCase().includes(normalizedSearch);
+    
+    return matchesStatus && matchesSearch;
+  })
 
   const visibleTasks = [...filteredTasks].sort((a, b) => {
     if (sortOrder === "NONE") return 0;
@@ -152,8 +160,10 @@ function App() {
       <TaskToolbar 
         statusFilter={statusFilter}
         sortOrder={sortOrder}
+        searchTerm={searchTerm}
         onStatusFilterChange={setStatusFilter}
         onSortOrderChange={setSortOrder}
+        onSearchTermChange={setSearchTerm}
       />
 
       <p className='task-summary'>{taskSummary}</p>
