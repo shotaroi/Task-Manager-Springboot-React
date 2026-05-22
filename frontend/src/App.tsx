@@ -23,9 +23,9 @@ function App() {
   const [status, setStatus] = useState<TaskStatus>("TODO");
   const [dueDate, setDueDate] = useState("");
 
-  const [statusFilter, setStatusFilter] = useState<TaskStatus | "ALL">("ALL");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
   const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
-  const [sortOrder, setSortOrder] = useState<"NONE" | "DUE_ASC" | "DUE_DESC">("NONE");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("NONE");
 
   const [actionError, setActionError] = useState("");
 

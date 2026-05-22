@@ -1,4 +1,3 @@
-import type { TaskStatus } from "../api/tasks";
 import type { StatusFilter, SortOrder } from '../types';
 
 interface TaskToolbarProps {
