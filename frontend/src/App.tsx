@@ -140,6 +140,11 @@ function App() {
 
     return sortOrder === "DUE_ASC" ? aTime - bTime : bTime - aTime;
   });
+
+  const taskSummary = 
+    statusFilter === "ALL" 
+      ? `Showing ${visibleTasks.length} tasks`
+      : `Showing ${visibleTasks.length} of ${tasks.length} tasks`;
   
   return (
     <main className='app'>
@@ -150,6 +155,8 @@ function App() {
         onStatusFilterChange={setStatusFilter}
         onSortOrderChange={setSortOrder}
       />
+
+      <p className='task-summary'>{taskSummary}</p>
 
       <TaskForm
         title={title}
