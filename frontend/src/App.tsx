@@ -10,6 +10,7 @@ import {
 } from "./api/tasks";
 import { TaskCard } from "./components/TaskCard";
 import { TaskForm } from './components/TaskForm';
+import { TaskToolbar } from './components/TaskToolbar';
 
 function App() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -142,22 +143,12 @@ function App() {
   return (
     <main className='app'>
       <h1>Task Manager</h1>
-      <div className='filter-row'>
-        <button type='button' className={statusFilter === "ALL" ? "active" : ""} onClick={() => setStatusFilter("ALL")}>All</button>
-        <button type='button' className={statusFilter === "TODO" ? "active" : ""} onClick={() => setStatusFilter("TODO")}>TODO</button>
-        <button type='button' className={statusFilter === "IN_PROGRESS" ? "active" : ""} onClick={() => setStatusFilter("IN_PROGRESS")}>IN_PROGRESS</button>
-        <button type='button' className={statusFilter === "DONE" ? "active" : ""} onClick={() => setStatusFilter("DONE")}>DONE</button>
-      </div>
-
-      <select 
-        className='sort-select'
-        value={sortOrder}  
-        onChange={(event) => setSortOrder(event.target.value as "NONE" | "DUE_ASC" | "DUE_DESC")}
-      >
-        <option value='NONE'>No Sorting</option>
-        <option value='DUE_ASC'>Due Date: earliest first</option>
-        <option value='DUE_DESC'>Due Date: latest first</option>
-      </select>
+      <TaskToolbar 
+        statusFilter={statusFilter}
+        sortOrder={sortOrder}
+        onStatusFilterChange={setStatusFilter}
+        onSortOrderChange={setSortOrder}
+      />
 
       <TaskForm
         title={title}
