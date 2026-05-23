@@ -162,3 +162,8 @@
   cursor: pointer;
   font: inherit;
 }
+
+.task-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -29,6 +29,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const [actionError, setActionError] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     getTasks()
@@ -40,6 +41,7 @@ function App() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setActionError("");
+    setIsSaving(true);
 
     try {
       if (editingTaskId !== null) {
@@ -74,6 +76,8 @@ function App() {
       setDueDate("");
     } catch {
       setActionError("Failed to save task. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   }
 
@@ -187,6 +191,7 @@ function App() {
         onDueDateChange={setDueDate}
         onSubmit={handleSubmit}
         onCancel={cancelEditing}
+        isSaving={isSaving}
       />
 
       {actionError && <p className='action-error'>{actionError}</p>}

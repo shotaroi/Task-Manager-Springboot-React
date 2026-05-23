@@ -12,6 +12,7 @@ interface TaskFormProps {
     onDueDateChange: (value: string) => void;
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     onCancel: () => void;
+    isSaving: boolean;
 }
 
 export function TaskForm({
@@ -26,6 +27,7 @@ export function TaskForm({
     onDueDateChange,
     onSubmit,
     onCancel,
+    isSaving,
 }: TaskFormProps) {
     return (
         <form onSubmit={onSubmit} className='task-form'>
@@ -59,7 +61,9 @@ export function TaskForm({
           required
         />
 
-        <button type='submit'>{isEditing ? "Save Task" : "Add Task"}</button>
+        <button type='submit' disabled={isSaving}>
+            {isEditing ? "Save Task" : "Add Task"}
+        </button>
 
         {isEditing && (
             <button className='cancel-button' type='button' onClick={onCancel}>
