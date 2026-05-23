@@ -29,6 +29,8 @@ export function TaskCard({
             </select>
 
             <small>Due: {task.dueDate}</small>
+            <small>Created: {new Date(task.createdAt).toLocaleString()}</small>
+            <small>Updated: {new Date(task.updatedAt).toLocaleString()}</small>
 
             <button className='edit-button' type='button' onClick={() => onEdit(task)}>
                 Edit
