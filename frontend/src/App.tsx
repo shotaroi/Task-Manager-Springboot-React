@@ -82,6 +82,9 @@ function App() {
   }
 
   async function handleDelete(id: number) {
+    const confirmed = window.confirm("Delete this task?");
+    if (!confirmed) return;
+
     setActionError("");
 
     try {

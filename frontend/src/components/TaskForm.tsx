@@ -62,7 +62,7 @@ export function TaskForm({
         />
 
         <button type='submit' disabled={isSaving}>
-            {isEditing ? "Save Task" : "Add Task"}
+            {isSaving ? "Saving..." :isEditing ? "Save Task" : "Add Task"}
         </button>
 
         {isEditing && (
