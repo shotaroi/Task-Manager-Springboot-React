@@ -7,6 +7,11 @@ interface TaskCardProps {
     onStatusChange: (task: Task, status: TaskStatus) => void;
 }
 
+function formatDateTime(value: string) {
+    if (!value) return "N/A";
+    return new Date(value).toLocaleString();
+}
+
 export function TaskCard({
     task,
     onEdit,
@@ -29,8 +34,8 @@ export function TaskCard({
             </select>
 
             <small>Due: {task.dueDate}</small>
-            <small>Created: {new Date(task.createdAt).toLocaleString()}</small>
-            <small>Updated: {new Date(task.updatedAt).toLocaleString()}</small>
+            <small>Created: {formatDateTime(task.createdAt)}</small>
+            <small>Updated: {formatDateTime(task.updatedAt)}</small>
 
             <button className='edit-button' type='button' onClick={() => onEdit(task)}>
                 Edit
