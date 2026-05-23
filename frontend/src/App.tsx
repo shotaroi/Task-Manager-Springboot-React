@@ -132,7 +132,7 @@ function App() {
     const matchesStatus = 
       statusFilter === "ALL" || task.status === statusFilter;
 
-    const normalizedSearch = searchTerm.toLowerCase();
+    const normalizedSearch = searchTerm.trim().toLowerCase();
     const matchesSearch = 
       task.title.toLowerCase().includes(normalizedSearch) ||
       task.description.toLowerCase().includes(normalizedSearch);
@@ -185,7 +185,12 @@ function App() {
       {actionError && <p className='action-error'>{actionError}</p>}
 
       {visibleTasks.length === 0 ? (
-        <p>No tasks yet.</p>
+        <p>
+          {tasks.length === 0
+            ? "No tasks yet."
+            : "No tasks match your current filters"
+          }
+        </p>
       ) : (
         <section className='task-list'>
           {visibleTasks.map((task) => (
