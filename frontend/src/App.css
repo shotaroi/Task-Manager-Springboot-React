@@ -150,3 +150,15 @@
   border-radius: 8px;
   font: inherit;
 }
+
+.clear-filters-button {
+  display: inline-block;
+  margin-bottom: 24px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}

@@ -7,6 +7,7 @@ interface TaskToolbarProps {
     onStatusFilterChange: (value: StatusFilter) => void;
     onSortOrderChange: (value: SortOrder) => void;
     onSearchTermChange: (value: string) => void;
+    onClearFilters: () => void;
 }
 
 export function TaskToolbar({
@@ -16,6 +17,7 @@ export function TaskToolbar({
     onStatusFilterChange,
     onSortOrderChange,
     onSearchTermChange,
+    onClearFilters,
 }: TaskToolbarProps) {
     return (
         <>
@@ -47,6 +49,10 @@ export function TaskToolbar({
             <option value='DUE_ASC'>Due Date: earliest first</option>
             <option value='DUE_DESC'>Due Date: latest first</option>
           </select>
+
+          <button className='clear-filters-button' type='button' onClick={onClearFilters}>
+            Clear Filters
+          </button>
         </>
     );
 }

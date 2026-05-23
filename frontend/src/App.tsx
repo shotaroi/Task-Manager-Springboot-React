@@ -125,6 +125,12 @@ function App() {
     setDueDate("");
   }
 
+  function clearFilters() {
+    setSearchTerm("");
+    setStatusFilter("ALL");
+    setSortOrder("NONE");
+  }
+
   if (loading) return <main className='app'>Loading tasks...</main>
   if (error) return <main className='app'>{error}</main>
 
@@ -164,6 +170,7 @@ function App() {
         onStatusFilterChange={setStatusFilter}
         onSortOrderChange={setSortOrder}
         onSearchTermChange={setSearchTerm}
+        onClearFilters={clearFilters}
       />
 
       <p className='task-summary'>{taskSummary}</p>
@@ -188,7 +195,7 @@ function App() {
         <p>
           {tasks.length === 0
             ? "No tasks yet."
-            : "No tasks match your current filters"
+            : "No tasks match your current filters."
           }
         </p>
       ) : (
